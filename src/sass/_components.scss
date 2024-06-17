@@ -1,0 +1,50 @@
+// MOVIE
+
+.movie {
+  background-color: $color-grey-light-2;
+  width: 25rem;
+
+  &__img {
+    width: 100%;
+    height: 20rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__data {
+    padding: 2rem;
+  }
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  &__date {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+  }
+}
+
+// BUTTON
+.btn {
+  border: 0;
+}
+
+// SPINNER
+.spinner svg {
+  animation-name: rotateInfinite;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rotateInfinite {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
