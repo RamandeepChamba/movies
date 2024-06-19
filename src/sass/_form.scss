@@ -1,11 +1,12 @@
 .form {
   font-size: 1.6rem;
 
-  max-width: 60rem;
+  max-width: $form-max-width;
   //   margin: 0 auto;
 
   input,
   button {
     font-size: inherit;
+    padding: 1rem;
   }
 }

@@ -1,4 +1,9 @@
-import { API_URL, KEY, MOVIES_PER_PAGE } from './config.js';
+import {
+  API_URL,
+  KEY,
+  MOVIES_PER_PAGE,
+  MAX_MOVIES_DROPDOWN,
+} from './config.js';
 import { AJAX } from './helpers.js';
 
 export const state = {
@@ -15,8 +20,12 @@ export const state = {
 export const fetchMovies = async function (query, page = 1) {
   try {
     const results = await AJAX(
-      `${API_URL}/?apikey=${KEY}&s=${query}&page=${page}`
+      `${API_URL}/?apikey=${KEY}&s=${query.trim()}&page=${page}`
     );
+    if (!results.Response) {
+      console.log('ran');
+      throw new Error(results.Error);
+    }
     // console.log(results);
     state.search.query = query;
     state.search.page = page;
@@ -62,11 +71,19 @@ export const fetchMovie = async function (id) {
 // Movies for dropdown
 export const fetchForDropdown = async function (query) {
   try {
+    if (!query) removeDropdownMovies();
     const results = await AJAX(`${API_URL}/?apikey=${KEY}&s=${query}`);
     if (results.Search) {
-      state.search.dropdownMovies = [...results.Search];
+      state.search.dropdownMovies = results.Search.slice(
+        0,
+        MAX_MOVIES_DROPDOWN
+      );
     }
   } catch (err) {
     throw err;
   }
+};
+
+export const removeDropdownMovies = function () {
+  state.search.dropdownMovies = [];
 };

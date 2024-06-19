@@ -3,6 +3,7 @@ import View from './View.js';
 class MoviesView extends View {
   _data = null;
   _parentEl = document.querySelector('.results-container');
+  _errorMessage = 'No movies found';
 
   _generateMarkup() {
     return (

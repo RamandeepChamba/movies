@@ -2,6 +2,7 @@ import * as model from './model.js';
 import moviesView from './views/moviesView.js';
 import paginationView from './views/paginationView.js';
 import searchView from './views/searchView.js';
+import dropdownView from './views/dropdownView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
@@ -24,24 +25,47 @@ const controlSearchMovies = async function (query, page = 1) {
     }
     moviesView.render(model.state.search.movies);
     paginationView.render(model.state.search);
+
+    // Clear and hide dropdown
+    controlHideDropdown();
   } catch (err) {
-    console.error(err.message);
+    moviesView.renderError();
   }
 };
 
 const controlSearchForDropdown = async function (query) {
   try {
     await model.fetchForDropdown(query);
-    console.log(model.state.search.dropdownMovies);
+    dropdownView.render(model.state.search.dropdownMovies);
   } catch (err) {
     console.error(err.message);
   }
 };
 
+const controlDropdownViewAll = async function () {
+  try {
+    // Hide dropdown
+    controlHideDropdown();
+    // get search query from search bar
+    const query = searchView.getQuery();
+    // fetch and render movies
+    await controlSearchMovies(query);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const controlHideDropdown = function () {
+  // remove dropdown movies
+  model.removeDropdownMovies();
+  // clear and hide dropdown
+  dropdownView.hide();
+};
+
 const init = function () {
-  // controlSearchMovies('wrong');
   searchView.addHandlerSubmit(controlSearchMovies);
   searchView.addHandlerSearch(controlSearchForDropdown);
+  dropdownView.addHandlerViewAll(controlDropdownViewAll);
   paginationView.addHandlerPage(controlSearchMovies);
 };
 init();
