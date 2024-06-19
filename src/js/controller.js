@@ -4,6 +4,8 @@ import paginationView from './views/paginationView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
+// Import all of Bootstrap's JS
+import * as bootstrap from 'bootstrap';
 
 ///////////////////////////////////////
 // OMDb API: http://img.omdbapi.com/?apikey=[yourkey]&
@@ -27,7 +29,7 @@ const controlSearchMovies = async function (query, page) {
 };
 
 const init = function () {
-  controlSearchMovies('wrong');
+  // controlSearchMovies('wrong');
   paginationView.addHandlerPage(controlSearchMovies);
 };
 init();
