@@ -2,7 +2,8 @@
 
 .movie {
   background-color: $color-grey-light-2;
-  width: 25rem;
+  padding-left: 0;
+  padding-right: 0;
 
   &__img {
     width: 100%;
