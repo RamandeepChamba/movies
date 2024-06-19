@@ -1,6 +1,7 @@
 import * as model from './model.js';
 import moviesView from './views/moviesView.js';
 import paginationView from './views/paginationView.js';
+import searchView from './views/searchView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
@@ -13,7 +14,7 @@ import * as bootstrap from 'bootstrap';
 //   module.hot.accept();
 // }
 
-const controlSearchMovies = async function (query, page) {
+const controlSearchMovies = async function (query, page = 1) {
   try {
     moviesView.renderSpinner();
     if (!query) {
@@ -30,6 +31,7 @@ const controlSearchMovies = async function (query, page) {
 
 const init = function () {
   // controlSearchMovies('wrong');
+  searchView.addHandlerSubmit(controlSearchMovies);
   paginationView.addHandlerPage(controlSearchMovies);
 };
 init();

@@ -32,4 +32,8 @@ html {
 }
 body {
   padding: 10rem;
+
+  @media only screen and (max-width: $bp-small) {
+    padding: 0;
+  }
 }
