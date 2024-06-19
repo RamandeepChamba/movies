@@ -5,6 +5,7 @@ export const state = {
   search: {
     query: '',
     movies: [],
+    dropdownMovies: [],
     page: 1,
     totalResults: 0,
     perPage: MOVIES_PER_PAGE,
@@ -53,6 +54,18 @@ export const fetchMovie = async function (id) {
         imdbID: "tt0295700"
       }
       */
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Movies for dropdown
+export const fetchForDropdown = async function (query) {
+  try {
+    const results = await AJAX(`${API_URL}/?apikey=${KEY}&s=${query}`);
+    if (results.Search) {
+      state.search.dropdownMovies = [...results.Search];
+    }
   } catch (err) {
     throw err;
   }

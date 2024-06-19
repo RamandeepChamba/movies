@@ -29,9 +29,19 @@ const controlSearchMovies = async function (query, page = 1) {
   }
 };
 
+const controlSearchForDropdown = async function (query) {
+  try {
+    await model.fetchForDropdown(query);
+    console.log(model.state.search.dropdownMovies);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 const init = function () {
   // controlSearchMovies('wrong');
   searchView.addHandlerSubmit(controlSearchMovies);
+  searchView.addHandlerSearch(controlSearchForDropdown);
   paginationView.addHandlerPage(controlSearchMovies);
 };
 init();
