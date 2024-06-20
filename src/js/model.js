@@ -14,6 +14,7 @@ export const state = {
     page: 1,
     totalResults: 0,
     perPage: MOVIES_PER_PAGE,
+    movie: null,
   },
 };
 
@@ -23,7 +24,6 @@ export const fetchMovies = async function (query, page = 1) {
       `${API_URL}/?apikey=${KEY}&s=${query.trim()}&page=${page}`
     );
     if (!results.Response) {
-      console.log('ran');
       throw new Error(results.Error);
     }
     // console.log(results);
@@ -49,19 +49,81 @@ export const fetchMovies = async function (query, page = 1) {
 // Single movie
 export const fetchMovie = async function (id) {
   try {
-    console.log('Searching movie...');
     const movie = await AJAX(`${API_URL}/?apikey=${KEY}&i=${id}`);
-    console.log(movie);
+    if (!movie.Response) {
+      throw new Error(results.Error);
+    }
+    state.search.movie = movie;
+    clearSearchForMovieDetail();
     /*
-      {
-        Poster
-        : 
-        "https://m.media-amazon.com/images/M/MV5BNzc4MDhiMWUtNTY5Ny00NWY3LTk0ZmItM2NlYmRmOWQzNGVmXkEyXkFqcGdeQXVyNjc5NjEzNA@@._V1_SX300.jpg"
-        Title: "Wrong Turn"
-        Type: "movie"
-        Year: "2003"
-        imdbID: "tt0295700"
-      }
+    {
+      Actors
+      : 
+      "Jim Belushi, Courtney Thorne-Smith, Larry Joe Campbell"
+      Awards
+      : 
+      "Nominated for 4 Primetime Emmys. 21 nominations total"
+      Country
+      : 
+      "United States"
+      Director
+      : 
+      "N/A"
+      Genre
+      : 
+      "Comedy, Romance"
+      Language
+      : 
+      "English"
+      Metascore
+      : 
+      "N/A"
+      Plot
+      : 
+      "A television show centered around a macho everyman, his loving wife, and their three precocious children."
+      Poster
+      : 
+      "https://m.media-amazon.com/images/M/MV5BMTY3NjU1NDg1Ml5BMl5BanBnXkFtZTcwMTQ5OTg5NA@@._V1_SX300.jpg"
+      Rated
+      : 
+      "TV-PG"
+      Ratings
+      : 
+      [{…}]
+      Released
+      : 
+      "03 Oct 2001"
+      Response
+      : 
+      "True"
+      Runtime
+      : 
+      "30 min"
+      Title
+      : 
+      "According to Jim"
+      Type
+      : 
+      "series"
+      Writer
+      : 
+      "Tracy Newman, Jonathan Stark"
+      Year
+      : 
+      "2001–2009"
+      imdbID
+      : 
+      "tt0285351"
+      imdbRating
+      : 
+      "6.5"
+      imdbVotes
+      : 
+      "38,302"
+      totalSeasons
+      : 
+      "8"
+  }
       */
   } catch (err) {
     throw err;
@@ -82,6 +144,24 @@ export const fetchForDropdown = async function (query) {
   } catch (err) {
     throw err;
   }
+};
+
+// Clear search
+const clearSearchForMovieDetail = function () {
+  // search: {
+  //   query: '',
+  //   movies: [],
+  //   dropdownMovies: [],
+  //   page: 1,
+  //   totalResults: 0,
+  //   perPage: MOVIES_PER_PAGE,
+  //   movie: null,
+  // }
+  state.search.query = '';
+  state.search.movies = [];
+  state.search.dropdownMovies = [];
+  state.search.page = 1;
+  state.search.totalResults = 0;
 };
 
 export const removeDropdownMovies = function () {

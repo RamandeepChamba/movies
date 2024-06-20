@@ -9,6 +9,7 @@ class PaginationView extends View {
     const page = +this._data.page;
     const numOfPages = Math.ceil(this._data.totalResults / this._data.perPage);
 
+    if (!numOfPages) return '';
     // Previous
     if (page - 1 > 0) {
       markup += `<button class="btn-pagination btn-pagination--prev" data-goto="${

@@ -62,10 +62,29 @@ const controlHideDropdown = function () {
   dropdownView.hide();
 };
 
+// Movie Detail
+const controlMovieDetail = async function (id) {
+  try {
+    // Render spinner in movies view
+    moviesView.renderSpinner();
+    // Fetch movie
+    await model.fetchMovie(id);
+    // Render movie
+    moviesView.render(model.state.search.movie);
+    // clear and hide pagination
+    paginationView.render(model.state.search);
+    // Hide dropdown
+    controlHideDropdown();
+  } catch (err) {
+    moviesView.renderError();
+  }
+};
+
 const init = function () {
   searchView.addHandlerSubmit(controlSearchMovies);
   searchView.addHandlerSearch(controlSearchForDropdown);
   dropdownView.addHandlerViewAll(controlDropdownViewAll);
   paginationView.addHandlerPage(controlSearchMovies);
+  moviesView.addHandlerMovieClick(controlMovieDetail);
 };
 init();

@@ -1,6 +1,7 @@
 .dropdown-container {
   position: relative;
   max-width: $form-max-width;
+  z-index: 10;
 }
 .dropdown {
   position: absolute;
