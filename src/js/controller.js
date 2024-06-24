@@ -65,16 +65,16 @@ const controlHideDropdown = function () {
 // Movie Detail
 const controlMovieDetail = async function (id) {
   try {
+    // Hide dropdown
+    controlHideDropdown();
     // Render spinner in movies view
     moviesView.renderSpinner();
     // Fetch movie
     await model.fetchMovie(id);
-    // Render movie
-    moviesView.render(model.state.search.movie);
     // clear and hide pagination
     paginationView.render(model.state.search);
-    // Hide dropdown
-    controlHideDropdown();
+    // Render movie
+    moviesView.render(model.state.search.movie);
   } catch (err) {
     moviesView.renderError();
   }
@@ -84,6 +84,7 @@ const init = function () {
   searchView.addHandlerSubmit(controlSearchMovies);
   searchView.addHandlerSearch(controlSearchForDropdown);
   dropdownView.addHandlerViewAll(controlDropdownViewAll);
+  dropdownView.addHandlerMovieClick(controlMovieDetail);
   paginationView.addHandlerPage(controlSearchMovies);
   moviesView.addHandlerMovieClick(controlMovieDetail);
 };

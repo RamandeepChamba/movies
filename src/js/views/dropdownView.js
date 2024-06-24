@@ -39,6 +39,16 @@ class DropdownView extends View {
       handler();
     });
   }
+  // User clicks on one of the movies in dropdown
+  addHandlerMovieClick(handler) {
+    this._parentEl.addEventListener('click', function (e) {
+      e.preventDefault();
+      const movie = e.target.closest('.dropdown__item');
+      if (!movie) return;
+      // #id -> id
+      handler(movie.getAttribute('href').substring(1));
+    });
+  }
 }
 
 export default new DropdownView();
