@@ -56,6 +56,17 @@ class DropdownView extends View {
       handler(movie.getAttribute('href').substring(1));
     });
   }
+  // Hide when clicked outside the dropdown
+  // and search bar (don't want to hide if searchbar is focused even though dropdown is not focused)
+  addHandlerClickedOutside(handler) {
+    document.addEventListener('click', function (e) {
+      // dropdown or search bar
+      if (e.target.closest('.dropdown') || e.target.closest('.search-query'))
+        return;
+      // outside
+      handler();
+    });
+  }
 }
 
 export default new DropdownView();

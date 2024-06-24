@@ -33,15 +33,6 @@ class SearchView extends View {
         handler();
       });
   }
-  // On blur
-  // - hide dropdown
-  addHandlerBlur(handler) {
-    this._parentEl
-      .querySelector('.search-query')
-      .addEventListener('blur', function (e) {
-        handler();
-      });
-  }
 }
 
 export default new SearchView();

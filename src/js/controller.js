@@ -57,13 +57,6 @@ const controlDropdownViewAll = async function () {
   }
 };
 
-// const controlHideDropdown = function () {
-//   // remove dropdown movies
-//   model.removeDropdownMovies();
-//   // clear and hide dropdown
-//   dropdownView.hide();
-// };
-
 const controlHideDropdown = function () {
   dropdownView.hide();
 };
@@ -93,9 +86,9 @@ const init = function () {
   searchView.addHandlerSubmit(controlSearchMovies);
   searchView.addHandlerSearch(controlSearchForDropdown);
   searchView.addHandlerFocus(controlShowDropdown);
-  searchView.addHandlerBlur(controlHideDropdown);
   dropdownView.addHandlerViewAll(controlDropdownViewAll);
   dropdownView.addHandlerMovieClick(controlMovieDetail);
+  dropdownView.addHandlerClickedOutside(controlHideDropdown);
   paginationView.addHandlerPage(controlSearchMovies);
   moviesView.addHandlerMovieClick(controlMovieDetail);
 };
