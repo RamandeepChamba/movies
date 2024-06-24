@@ -164,6 +164,6 @@ const clearSearchForMovieDetail = function () {
   state.search.totalResults = 0;
 };
 
-export const removeDropdownMovies = function () {
-  state.search.dropdownMovies = [];
-};
+// export const removeDropdownMovies = function () {
+//   state.search.dropdownMovies = [];
+// };

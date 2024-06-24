@@ -28,8 +28,15 @@ class DropdownView extends View {
       </a>
     `;
   }
+  // hide() {
+  //   this._clear();
+  // }
+
   hide() {
-    this._clear();
+    this._parentEl.classList.add('hidden');
+  }
+  show() {
+    this._parentEl.classList.remove('hidden');
   }
   // User clicks view all
   addHandlerViewAll(handler) {
@@ -47,17 +54,6 @@ class DropdownView extends View {
       if (!movie) return;
       // #id -> id
       handler(movie.getAttribute('href').substring(1));
-    });
-  }
-
-  addHandlerClickedOutsideDropdown(handler) {
-    document.addEventListener('click', function (e) {
-      const dropdown = e.target.closest('.dropdown');
-      // clicked outside
-      if (!dropdown) {
-        // clear and hide
-        handler();
-      }
     });
   }
 }

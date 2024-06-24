@@ -11,6 +11,7 @@ class SearchView extends View {
   addHandlerSubmit(handler) {
     this._parentEl.addEventListener('submit', function (e) {
       e.preventDefault();
+      this.querySelector('.search-query').blur();
       const query = this.querySelector('.search-query').value;
       handler(query);
     });
@@ -21,6 +22,24 @@ class SearchView extends View {
       .querySelector('.search-query')
       .addEventListener('input', function (e) {
         handler(this.value);
+      });
+  }
+  // On focus
+  // - show / unhide dropdown
+  addHandlerFocus(handler) {
+    this._parentEl
+      .querySelector('.search-query')
+      .addEventListener('focus', function (e) {
+        handler();
+      });
+  }
+  // On blur
+  // - hide dropdown
+  addHandlerBlur(handler) {
+    this._parentEl
+      .querySelector('.search-query')
+      .addEventListener('blur', function (e) {
+        handler();
       });
   }
 }
