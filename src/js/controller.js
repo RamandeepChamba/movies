@@ -85,6 +85,7 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchForDropdown);
   dropdownView.addHandlerViewAll(controlDropdownViewAll);
   dropdownView.addHandlerMovieClick(controlMovieDetail);
+  dropdownView.addHandlerClickedOutsideDropdown(controlHideDropdown);
   paginationView.addHandlerPage(controlSearchMovies);
   moviesView.addHandlerMovieClick(controlMovieDetail);
 };

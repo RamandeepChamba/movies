@@ -49,6 +49,17 @@ class DropdownView extends View {
       handler(movie.getAttribute('href').substring(1));
     });
   }
+
+  addHandlerClickedOutsideDropdown(handler) {
+    document.addEventListener('click', function (e) {
+      const dropdown = e.target.closest('.dropdown');
+      // clicked outside
+      if (!dropdown) {
+        // clear and hide
+        handler();
+      }
+    });
+  }
 }
 
 export default new DropdownView();
