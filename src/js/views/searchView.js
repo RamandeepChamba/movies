@@ -7,6 +7,11 @@ class SearchView extends View {
     return this._parentEl.querySelector('.search-query').value;
   }
 
+  reset() {
+    this._parentEl.querySelector('.search-query').value = '';
+    this._parentEl.querySelector('.search-query').focus();
+  }
+
   // on submit
   addHandlerSubmit(handler) {
     this._parentEl.addEventListener('submit', function (e) {
@@ -32,6 +37,11 @@ class SearchView extends View {
       .addEventListener('focus', function (e) {
         handler();
       });
+  }
+
+  // URL / hash change
+  addHandlerHashChange(handler) {
+    ['load', 'hashchange'].forEach(ev => window.addEventListener(ev, handler));
   }
 }
 

@@ -21,7 +21,7 @@ const controlSearchMovies = async function (query, page = 1) {
     if (!query) {
       await model.fetchMovies(model.state.search.query, page);
     } else {
-      await model.fetchMovies(query);
+      await model.fetchMovies(query, page);
     }
     moviesView.render(model.state.search.movies);
     paginationView.render(model.state.search);
@@ -50,8 +50,8 @@ const controlDropdownViewAll = async function () {
     controlHideDropdown();
     // get search query from search bar
     const query = searchView.getQuery();
-    // fetch and render movies
-    await controlSearchMovies(query);
+    // update url hash
+    location.hash = `search=${query ? query : model.state.search.query}&page=1`;
   } catch (err) {
     console.error(err.message);
   }
@@ -82,14 +82,73 @@ const controlMovieDetail = async function (id) {
   }
 };
 
+const resetApp = function () {
+  model.resetState();
+  // clear search form input
+  searchView.reset();
+  // clear and hide pagination
+  paginationView.render(model.state.search);
+  // clear and hide dropdown
+  dropdownView.render(model.state.search.dropdownMovies);
+  controlHideDropdown();
+  // clear and hide movies View
+  moviesView.render(model.state.search.movies);
+};
+
+// ON URL HASH CHANGE
+const controlHashChange = function () {
+  // Possible hash values
+  // 1. #search=mad%20max&page=1 (for movie list)
+  // 2. #movie=id (for movie detail)
+  const search = location.hash;
+  if (!search) {
+    // clear everything
+    resetApp();
+    return;
+  }
+  // 1
+  if (search.indexOf('search=') !== -1 && search.indexOf('page=') !== -1) {
+    const query = search.substring(
+      search.indexOf('search=') + 7,
+      search.indexOf('&')
+    );
+    const page = search.substring(search.indexOf('page=') + 5);
+    controlSearchMovies(query, +page);
+  }
+  // 2
+  if (search.indexOf('movie=') !== -1) {
+    const movieId = search.substring(search.indexOf('movie=') + 6);
+    controlMovieDetail(movieId);
+  }
+};
+
+// Pagination button clicked
+const controlPaginationClick = function (_, page) {
+  // update url hash
+  location.hash = `search=${model.state.search.query}&page=${page}`;
+};
+
+// Search form submitted
+const controlFormSubmit = function (query) {
+  // update url hash
+  location.hash = `search=${query}&page=${1}`;
+};
+
+// Movie item clicked (from movies view or dropdown) to view detail
+const controlMovieClick = function (id) {
+  // update url hash
+  location.hash = `movie=${id}`;
+};
+
 const init = function () {
-  searchView.addHandlerSubmit(controlSearchMovies);
+  searchView.addHandlerSubmit(controlFormSubmit);
   searchView.addHandlerSearch(controlSearchForDropdown);
   searchView.addHandlerFocus(controlShowDropdown);
+  searchView.addHandlerHashChange(controlHashChange);
   dropdownView.addHandlerViewAll(controlDropdownViewAll);
-  dropdownView.addHandlerMovieClick(controlMovieDetail);
+  dropdownView.addHandlerMovieClick(controlMovieClick);
   dropdownView.addHandlerClickedOutside(controlHideDropdown);
-  paginationView.addHandlerPage(controlSearchMovies);
-  moviesView.addHandlerMovieClick(controlMovieDetail);
+  paginationView.addHandlerPage(controlPaginationClick);
+  moviesView.addHandlerMovieClick(controlMovieClick);
 };
 init();

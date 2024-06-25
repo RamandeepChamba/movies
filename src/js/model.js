@@ -159,11 +159,20 @@ const clearSearchForMovieDetail = function () {
   // }
   state.search.query = '';
   state.search.movies = [];
-  state.search.dropdownMovies = [];
+  // state.search.dropdownMovies = [];
   state.search.page = 1;
   state.search.totalResults = 0;
 };
 
 export const removeDropdownMovies = function () {
   state.search.dropdownMovies = [];
+};
+
+export const resetState = function () {
+  state.search.query = '';
+  state.search.movies = [];
+  state.search.movie = null;
+  state.search.dropdownMovies = [];
+  state.search.page = 1;
+  state.search.totalResults = 0;
 };
